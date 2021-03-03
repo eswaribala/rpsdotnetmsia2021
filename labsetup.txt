@@ -1,0 +1,21 @@
+Setup and Installation
+
+1. Windows 10 ver 19042
+2. Docker Desktop WSL2 Docker version 20.10.2, build 2291f61
+3 https://docs.docker.com/docker-for-windows/wsl/
+4. ubuntu 20.04 LTS
+5. Visual Studio 2019 / Visual Studio Code
+6. SQL Server 2019/ Azure Data Studio
+7. Mongo db Community Edition /
+ Docker Mongo
+8. Graphql Query Flexibility 
+Graphql with playground package
+9. Swashbuckle Swagger package
+10. Rabbitmq/Kafka or Docker compose
+11.ELK for Logging
+12.Prometheus and Grafana 
+13. Redis Server 
+14. Steel toe package for JVM and Non JVM integrration
+15 JVM set up (Eclipse 2019 and java 8)
+16. Hashicorp Vault server ( External Configuration)
+
