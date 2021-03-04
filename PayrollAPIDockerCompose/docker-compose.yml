@@ -1,0 +1,23 @@
+version: '3.4'
+
+services:
+  payrollapidockercompose:
+    image: ${DOCKER_REGISTRY-}payrollapidockercompose
+    build:
+      context: .
+      dockerfile: PayrollAPIDockerCompose/Dockerfile
+    depends_on:
+      - sqlserverpayrollservice
+
+  sqlserverpayrollservice:  
+    image: microsoft/mssql-server-linux 
+    hostname: 'sqlserverpayrollservice'  
+    environment:  
+      ACCEPT_EULA: 'Y' 
+      SA_PASSWORD: "Vignesh@95"  
+    volumes:  
+      - ./payrollapi:/var/opt/mssql/data  
+    ports:  
+      - '1405:1433'  
+    expose:  
+      - 1405 

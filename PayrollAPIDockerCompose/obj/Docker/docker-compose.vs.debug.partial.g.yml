@@ -1,0 +1,30 @@
+version: '3.4'
+
+services:
+  payrollapidockercompose:
+    image: payrollapidockercompose:dev
+    container_name: PayrollAPIDockerCompose
+    build:
+      target: runtime
+      labels:
+        com.microsoft.created-by: "visual-studio"
+        com.microsoft.visual-studio.project-name: "PayrollAPIDockerCompose"
+    environment:
+      - DOTNET_USE_POLLING_FILE_WATCHER=1
+      - ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS=true
+      #- NUGET_FALLBACK_PACKAGES=$container_paths_to_fallback_packages_payrollapidockercompose$
+    volumes:
+      - G:\Local disk\dotnetcoremicroservices\PayrollAPIDockerCompose\PayrollAPIDockerCompose:/app
+      - G:\Local disk\dotnetcoremicroservices\PayrollAPIDockerCompose:/src
+      - C:\Users\Balasubramaniam\vsdbg\vs2017u5:/remote_debugger:rw
+#$nuget_volume_mapping_payrollapidockercompose$
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+
+    entrypoint: tail -f /dev/null
+    labels:
+      com.microsoft.visualstudio.debuggee.program: "dotnet"
+      #com.microsoft.visualstudio.debuggee.arguments: " $debuggee_arguments_probing_paths_payrollapidockercompose$ \"/app/bin/Debug/netcoreapp3.1/PayrollAPIDockerCompose.dll\""
+      com.microsoft.visualstudio.debuggee.workingdirectory: "/app"
+      com.microsoft.visualstudio.debuggee.killprogram: "/bin/sh -c \"if PID=$$(pidof dotnet); then kill $$PID; fi\""
+    tty: true
