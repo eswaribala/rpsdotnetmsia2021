@@ -1,0 +1,54 @@
+services:
+  inventoryservice:
+    build:
+      context: G:\Local disk\dotnetcoremicroservices\InventoryService
+      dockerfile: InventoryService/Dockerfile
+      labels:
+        com.microsoft.created-by: visual-studio
+        com.microsoft.visual-studio.project-name: InventoryService
+      target: base
+    container_name: InventoryService
+    depends_on:
+      sqlserverinventoryservice:
+        condition: service_started
+    entrypoint: tail -f /dev/null
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS: "true"
+      ASPNETCORE_URLS: https://+:443;http://+:80
+      DOTNET_USE_POLLING_FILE_WATCHER: '1'
+      NUGET_FALLBACK_PACKAGES: /root/.nuget/fallbackpackages
+    image: inventoryservice:dev
+    labels:
+      com.microsoft.visualstudio.debuggee.arguments: ' --additionalProbingPath /root/.nuget/packages
+        --additionalProbingPath /root/.nuget/fallbackpackages  "/app/bin/Debug/netcoreapp3.1/InventoryService.dll"'
+      com.microsoft.visualstudio.debuggee.killprogram: /bin/sh -c "if PID=$$(pidof
+        dotnet); then kill $$PID; fi"
+      com.microsoft.visualstudio.debuggee.program: dotnet
+      com.microsoft.visualstudio.debuggee.workingdirectory: /app
+    ports:
+    - target: 80
+    - target: 443
+    tty: true
+    volumes:
+    - G:\Local disk\dotnetcoremicroservices\InventoryService\InventoryService:/app:rw
+    - C:\Users\Balasubramaniam\vsdbg\vs2017u5:/remote_debugger:rw
+    - C:\Users\Balasubramaniam\AppData\Roaming\ASP.NET\Https:/root/.aspnet/https:ro
+    - C:\Users\Balasubramaniam\AppData\Roaming\Microsoft\UserSecrets:/root/.microsoft/usersecrets:ro
+    - C:\Program Files\dotnet\sdk\NuGetFallbackFolder:/root/.nuget/fallbackpackages:ro
+    - C:\Users\Balasubramaniam\.nuget\packages:/root/.nuget/packages:ro
+    - G:\Local disk\dotnetcoremicroservices\InventoryService:/src:rw
+  sqlserverinventoryservice:
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: Vignesh@95
+    expose:
+    - '1405'
+    hostname: sqlserverinventoryservice
+    image: microsoft/mssql-server-linux
+    ports:
+    - published: 1405
+      target: 1433
+    volumes:
+    - G:\Local disk\dotnetcoremicroservices\InventoryService\invapi2021:/var/opt/mssql/data:rw
+version: '3.4'
