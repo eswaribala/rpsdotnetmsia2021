@@ -1,0 +1,26 @@
+ protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Catalog>()
+       .HasMany(c => c.ProductList)
+       .WithOne(p => p.Catalog);
+            modelBuilder.Entity("ProductSuppliers", b =>
+            {
+                b.HasOne("Product", "Product")
+                    .WithMany("ProductSuppliers")
+                    .HasForeignKey("ProductId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+                b.HasOne("Supplier", "Supplier")
+                    .WithMany("ProductSuppliers")
+                    .HasForeignKey("SupplierId")
+                    .HasForeignKey("CountryCode")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+            });
+
+            modelBuilder.Entity<Stock>()
+             .HasOne(s => s.Product);
+            modelBuilder.Entity<Stock>()
+           .HasOne(s => s.Location);
+
+        }
