@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace InventoryService.Models
@@ -21,12 +22,14 @@ namespace InventoryService.Models
         
         [ForeignKey("Product")]
         [Column("Product_Id")]
-        public long ProductId { get; set; }
+       
+        public long? ProductId { get; set; }
         public Product Product { get; set; }
          
         [ForeignKey("Location")]
         [Column("Location_Id")]
-        public long LocationId { get; set; }
+        
+        public long? RegionalCode { get; set; }
         public Location Location { get; set; }
        
     }

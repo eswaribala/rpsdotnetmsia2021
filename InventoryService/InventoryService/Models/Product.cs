@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace InventoryService.Models
@@ -22,9 +23,12 @@ namespace InventoryService.Models
         [Column("Catalog_Id")]
         public long CatalogId { get; set; }
         public Catalog Catalog { get; set; }
-       
-        public ICollection<ProductSupplier> ProductSuppliers { get; set; }
+       [JsonIgnore]
+#nullable enable
+        public ICollection<ProductSupplier>? ProductSuppliers { get; set; }
 
-        public Stock Stock;
+        [JsonIgnore]
+        
+        public Stock? Stock { get; set; }
     }
 }

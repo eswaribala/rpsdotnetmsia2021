@@ -11,7 +11,7 @@ namespace InventoryService.Contexts
     {
         public InventoryContext(DbContextOptions<InventoryContext> options) : base(options)
         {
-            this.Database.EnsureCreated();
+           this.Database.EnsureCreated();
         }
 
         public DbSet<Catalog> Catalogs { get; set; }
@@ -19,12 +19,13 @@ namespace InventoryService.Contexts
         public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<Stock> Stocks { get; set; }
-        public DbSet<ProductSupplier> ProductSuppliers { get; set; }
+       // public DbSet<ProductSupplier> ProductSuppliers { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Catalog>()
        .HasMany(c => c.ProductList)
        .WithOne(p => p.Catalog);
+            
             modelBuilder.Entity<ProductSupplier>()
         .HasKey(ps=> new { ps.ProductId,ps.SupplierId});
             modelBuilder.Entity<ProductSupplier>()
@@ -35,7 +36,7 @@ namespace InventoryService.Contexts
                 .HasOne(ps => ps.Supplier)
                 .WithMany(s => s.ProductSuppliers)
                 .HasForeignKey(ps => ps.SupplierId);
-
+            
 
             modelBuilder.Entity<Stock>()
              .HasOne(s => s.Product);

@@ -1,4 +1,7 @@
+using GraphQL.Server;
+using GraphQL.Server.Ui.Playground;
 using InventoryService.Contexts;
+using InventoryService.GraphqlSchemas;
 using InventoryService.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -33,6 +36,11 @@ namespace InventoryService
             services.AddDbContext<InventoryContext>
                 (o => o.UseSqlServer(Configuration
                 .GetConnectionString("InventoryDBConnString")));
+
+            services.AddScoped<InventorySchema>();
+            services.AddGraphQL()
+               .AddSystemTextJson()
+               .AddGraphTypes(typeof(InventorySchema), ServiceLifetime.Scoped);
             services.AddApiVersioning(); // just add this
             #region Swagger
             services.AddSwaggerGen(c =>
@@ -47,7 +55,12 @@ namespace InventoryService
             });
             #endregion
             services.AddTransient<IStockRepository, StockRepository>();
+            services.AddTransient<ICatalogRepository, CatalogRepository>();
+            services.AddTransient<IProductRepository, ProductRepository>();
+            services.AddTransient<ISupplierRepository, SupplierRepository>();
+            services.AddTransient<ILocationRepository, LocationRepository>();
             services.AddControllers().AddNewtonsoftJson(options =>
+
        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
    );
         }
@@ -77,6 +90,8 @@ namespace InventoryService
                 c.SwaggerEndpoint($"/swagger/v1/swagger.json", $"v1");
             });
             #endregion
+            app.UseGraphQL<InventorySchema>();
+            app.UseGraphQLPlayground(options: new GraphQLPlaygroundOptions());
         }
     }
 }

@@ -19,6 +19,8 @@ namespace InventoryService.Repositories
         }
         public Stock AddStock(Stock Stock)
         {
+            //Product product = GetStockById(Stock.ProductId);
+            //Stock.Product = product;
             this._dbContext.Add(Stock);
             Save();
             return Stock;

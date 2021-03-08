@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace InventoryService.Models
@@ -18,7 +19,7 @@ namespace InventoryService.Models
         public String LocationAddress { get; set; }
         [Column("Mobile_No")]
         public long MobileNo { get; set; }
-
-        public Stock Stock;
+        [JsonIgnore]
+        public Stock Stock { get; set; }
     }
 }
